@@ -1,0 +1,1 @@
+[{"_id":{"$oid":"65f8773bdbe9f8e334ef7457"},"inserted_at":{"$date":"2024-03-18T17:17:47.981Z"},"tag_id":{"$oid":"65f873cedbe9f8e334ef7451"},"historic_tags":[{"tag_id":{"$oid":"65f876f0dbe9f8e334ef7455"},"changed_at":{"$date":"2024-03-18T17:17:47.981Z"}}],"path":"path to the document on the nfs"}]
