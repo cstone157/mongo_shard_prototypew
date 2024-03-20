@@ -2,7 +2,7 @@ version: "3.5"
 
 services:
   mongo:
-    #image: mongo:latest
+#    image: mongo:latest
     build: mongo/.
     
     container_name: mongo
@@ -13,13 +13,13 @@ services:
       - "0.0.0.0:27017:27017"
     networks:
       - MONGO
-    volumes:
-      - type: volume
-        source: MONGO_DATA
-        target: /data/db
-      - type: volume
-        source: MONGO_CONFIG
-        target: /data/configdb
+#    volumes:
+#      - type: volume
+#        source: MONGO_DATA
+#        target: /data/db
+#      - type: volume
+#        source: MONGO_CONFIG
+#        target: /data/configdb
 
   mongo-express:
     image: mongo-express:latest
@@ -42,8 +42,8 @@ networks:
   MONGO:
     name: MONGO
 
-volumes:
-  MONGO_DATA:
-    name: MONGO_DATA
-  MONGO_CONFIG:
-    name: MONGO_CONFIG
+#volumes:
+#  MONGO_DATA:
+#    name: MONGO_DATA
+#  MONGO_CONFIG:
+#    name: MONGO_CONFIG
