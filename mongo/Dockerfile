@@ -11,6 +11,6 @@ COPY data/sources.json        /tmp/data/sources.json
 COPY data/tag_keys.json       /tmp/data/tag_keys.json
 COPY data/tags.json           /tmp/data/tags.json
 
-COPY importscript.sh /docker-entrypoint-initdb.d/
+#COPY importscript.sh /docker-entrypoint-initdb.d/
 
 #ADD init-mongo.js /docker-entrypoint-initdb.d/
