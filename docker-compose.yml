@@ -1,26 +1,54 @@
 version: "3.5"
 
 services:
-  mongo:
-#    image: mongo:latest
-    build: mongo/.
-    
+  ## ----- Database configuration -----
+  
+  ## ----- Route servers -----
+#  router01:
+#    image: mongo:6.0.1
+#    container_name: router-01
+#    command: mongos --port 27017 --configdb rs-config-server/configsvr01:27017,configsvr02:27017,configsvr03:27017 --bind_ip_all
+#    ports:
+#      - 27017:27017
+#    restart: always
+#    volumes:
+#      - ./scripts:/scripts
+#      - mongodb_cluster_router01_db:/data/db
+#      - mongodb_cluster_router01_config:/data/configdb
+  
+  ## ----- Config servers -----
+#  configsvr01:
+#    image: mongo:6.0.1
+#    container_name: mongo-config-01 
+#    command: mongod --port 27017 --configsvr --replSet rs-config-server
+#    volumes:
+#      - ./scripts:/scripts 
+#      - mongodb_cluster_configsvr01_db:/data/db
+#      - mongodb_cluster_configsvr01_config:/data/configdb
+#    ports:
+#      - 27119:27017
+#    restart: always
+#    links:
+#      - shard01-a
+#      - shard02-a
+#      - shard03-a
+  
+  ## ----- Shard servers -----
+  mongo_shard01a:
+    build: mongo/shard/.
     container_name: mongo
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: admin
     ports:
-      - "0.0.0.0:27017:27017"
+      - "27017:27017"
     networks:
-      - MONGO
-#    volumes:
-#      - type: volume
-#        source: MONGO_DATA
-#        target: /data/db
-#      - type: volume
-#        source: MONGO_CONFIG
-#        target: /data/configdb
+      - mongo_data_lake
+    volumes:
+      - shard01a_data:/data/db
+      - shard01a_config:/data/configdb
 
+  ## ----- UI for accessing MongoDB -----
   mongo-express:
     image: mongo-express:latest
     container_name: mongo-express
@@ -34,16 +62,14 @@ services:
     ports:
       - "0.0.0.0:8081:8081"
     networks:
-      - MONGO
+      - mongo_data_lake
     depends_on:
-      - mongo
+      - mongo_shard01a
 
 networks:
-  MONGO:
-    name: MONGO
+  mongo_data_lake:
+    name: mongo_data_lake
 
-#volumes:
-#  MONGO_DATA:
-#    name: MONGO_DATA
-#  MONGO_CONFIG:
-#    name: MONGO_CONFIG
+volumes:
+  shard01a_data:
+  shard01a_config:
